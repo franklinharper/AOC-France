@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <PreferenceCategory
+                android:title="Géolocalisation">
+                <SwitchPreference
+                        android:title="Activer la géolocalisation ?"
+                        android:defaultValue="false"
+                        android:summaryOff="Notifications de proximité désactivées"
+                        android:summaryOn="Notifications de proximité actives"
+                        android:key="geolocalisationIsActive" />
+                <!-- <SwitchPreference
+                        android:title="Utiliser GPS ?"
+                        android:defaultValue="true"
+                        android:summaryOff="GSM utilisé"
+                        android:summaryOn="GPS utilisé"
+                        android:key="GPSIsActive" 
+                        android:dependency="geolocalisationIsActive" android:enabled="false"/> -->
+                <EditTextPreference
+                        android:summary="Distance autour des communes à laquelle vous serez notifié"
+                        android:title="Rayon de notification (Km)"
+                        android:key="geolocalisationDistance" 
+                        android:dependency="geolocalisationIsActive" 
+                        android:defaultValue="5"/>
+        </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bg_dashboard"
+    android:padding="2dip"
+    android:orientation="vertical"
+ >
+    
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+       
+            >
+         
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center" >
+            
+            
+                   <Button
+                    android:id="@+id/button_map"
+                    android:background="@drawable/aoc_close"
+                    android:layout_width="@dimen/dashboard_button"
+                    android:layout_height="@dimen/dashboard_button" />
+                    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_map"
+                    style="@+style/home_buttons" />
+                    
+                <Button
+                    android:id="@+id/button_about"
+                    android:background="@drawable/about_button"
+                    android:layout_width="@dimen/dashboard_button"
+                    android:layout_height="@dimen/dashboard_button" />
+                    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_about"
+                    style="@+style/home_buttons" />
+                  
+            </LinearLayout>
+                <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="center" >
+             
+                 <Button
+                    android:id="@+id/button_list_around"
+                    android:background="@drawable/search_button"
+                    android:layout_width="@dimen/dashboard_button"
+                    android:layout_height="@dimen/dashboard_button" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_list_around"
+                    style="@+style/home_buttons" />
+                 <Button
+                    android:id="@+id/button_ar"
+                    android:background="@drawable/augmented_reality_button"
+                    android:layout_width="@dimen/dashboard_button"
+                    android:layout_height="@dimen/dashboard_button" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_ar"
+                    style="@+style/home_buttons" />
+                
+            </LinearLayout>
+            
+        </LinearLayout>
+</LinearLayout>
+

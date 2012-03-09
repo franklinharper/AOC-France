@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" 
+        android:layout_width="match_parent"
+	android:layout_height="match_parent"
+		android:background="#FAF9EC"
+	>
+
+        <fragment android:name="com.franceaoc.app.ui.fragment.NearestCommunesListFragment"
+		android:id="@+id/fragment_nearest_communes_list" 
+                android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
+</LinearLayout>

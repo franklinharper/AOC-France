@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" 
+        android:layout_width="match_parent"
+	android:layout_height="match_parent"
+		android:background="#FAF9EC"
+	>
+
+    <ImageView android:id="@+id/icon"
+        android:layout_width="@dimen/icon_small_app"
+	android:layout_height="@dimen/icon_small_app"
+        android:padding="@dimen/padding_icon"/>
+ 
+    <TextView android:id="@+id/distance"
+            android:layout_width="@dimen/icon_small_app"
+            android:layout_height="@dimen/icon_small_app"
+            android:textSize="@dimen/large_font_list"
+            android:padding="@dimen/padding_text"
+            android:textColor="#000000"
+            />
+ 
+    <LinearLayout
+	android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+	android:layout_height="wrap_content" >
+            
+         <TextView android:id="@+id/name_commune"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_font_list"
+            android:padding="@dimen/padding_text"
+            android:textColor="#8D1C0E"
+            android:textStyle="bold"
+            />
+        <TextView android:id="@+id/name_aoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_font_list"
+            android:padding="@dimen/padding_text"
+            android:textColor="#000000"
+            />
+    </LinearLayout>
+    
+
+</LinearLayout>

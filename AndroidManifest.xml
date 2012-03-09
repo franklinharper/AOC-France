@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="com.franceaoc.app"
+    android:versionCode="1"
+    android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-sdk
+        android:minSdkVersion="5"
+        android:targetSdkVersion="11" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:logo="@drawable/logo">
+
+        <uses-library
+            android:name="com.google.android.maps"
+            android:required="true" >
+        </uses-library>
+
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.DashboardActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+             >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.DASHBOARD" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.NearestCommunesListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.NEAREST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.CommuneAOCActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.COMMUNE_AOC" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.AOCMapActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.MAP" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.AboutActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.ABOUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.ARActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.AR" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.OptionsActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.OPTIONS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <receiver class=".service.ProximityService"
+            android:name=".service.ProximityService">
+            <intent-filter>
+                <action android:name="com.franceaoc.app.action.ACTION_GEOLOC_NOTIFYCATION" />
+                <action android:name="com.franceaoc.app.action.ACTION_PREFERENCES_MODIFIED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
