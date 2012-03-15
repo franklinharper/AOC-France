@@ -37,7 +37,11 @@ public class Constants
     public static final double DEMO_LAT = 47.07;
     public static final double DEMO_LON = 4.88;
     public static final double DEMO_ALT = 0.0;
-    public static boolean DEMO = true;
+    public static final boolean DEMO = false;
+    
+    public static final int MAX_POI_AR = 20;
+    public static final int MAX_POI_MAP = 200;
+    public static final int MAX_POI_LIST = 200;
 
    
 }

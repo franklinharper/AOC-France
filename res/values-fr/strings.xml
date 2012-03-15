@@ -2,19 +2,10 @@
 <resources>
     <string name="app_name">AOC France</string>
 
-    
-    
-    
-    <!--  <string name="recherche_autours">Recherche autours de moi</string> 
-    <string name="recherche_adresse">Recherche par adresse</string>
-    <string name="recherche_aoc">Recherche par AOC</string> 
-    <string name="a_propos">A propos</string> 
-    <string name="preferences">Préférences</string> 
-    <string name="acheter">Acheter</string> -->
     <string name="title_bar">AOC France</string> 
 
     <!-- Credits screen -->
-    <string name="credits_current_version">Version 0.9 GADC</string>
+    <string name="credits_current_version">Version 1.0</string>
     <string name="credits_app_name">AOC France</string>
     
     <string name="alert_dialog_ok">Voter</string> 

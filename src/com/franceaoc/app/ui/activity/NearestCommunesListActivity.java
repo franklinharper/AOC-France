@@ -23,7 +23,6 @@ import com.franceaoc.app.R;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.service.CommuneService;
 import com.franceaoc.app.ui.fragment.NearestCommunesListFragment;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -43,10 +42,7 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
         FragmentManager fm = getSupportFragmentManager();
         NearestCommunesListFragment fragment = (NearestCommunesListFragment) fm.findFragmentById(R.id.fragment_nearest_communes_list);
 
-        Collection<Commune> all = CommuneService.getCommunesList();
-        double lat = 47.07;
-        double lon = 4.88;
-        List<Commune> listCommunes = CommuneService.getNearestPOI( all , lat, lon, 20, 1000000);
+        List<Commune> listCommunes = CommuneService.getNearestCommunes( this , Constants.MAX_POI_LIST );
         fragment.update( listCommunes );
     }
 

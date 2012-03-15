@@ -14,9 +14,12 @@
  */
 package com.franceaoc.app.service;
 
+import android.content.Context;
+import android.location.Location;
 import com.franceaoc.app.Constants;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.model.SortablePOI;
+import com.google.android.maps.GeoPoint;
 import java.util.*;
 
 /**
@@ -77,10 +80,34 @@ public class CommuneService
         return listNearest;
     }
 
-    public static List<Commune> getNearestCommunes()
+    public static List<Commune> getNearestCommunes( Context context , int max )
     {
         Collection<Commune> all = CommuneService.getCommunesList();
-        return CommuneService.getNearestPOI(all, Constants.DEMO_LAT, Constants.DEMO_LON, 20, 1000000);
+        
+        double lat, lon;
+        if( Constants.DEMO )
+        {
+            lat = Constants.DEMO_LAT;
+            lon = Constants.DEMO_LON;
+        }
+        else
+        {
+            Location location = LocationService.getLocation( context );
+            lat = location.getLatitude();
+            lon = location.getLongitude();
+        }
+        return CommuneService.getNearestPOI(all, lat, lon, max , 1000000);
 
     }
+    
+    public static List<Commune> getNearestCommunes( Context context , GeoPoint point, int max )
+    {
+        Collection<Commune> all = CommuneService.getCommunesList();
+ 
+        double lat = ( (double) point.getLatitudeE6()) / 1E6;
+        double lon = ( (double) point.getLongitudeE6()) / 1E6;
+        
+        return CommuneService.getNearestPOI(all, lat, lon, max , 1000000);
+   }
+
 }

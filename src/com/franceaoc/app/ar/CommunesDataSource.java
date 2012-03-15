@@ -19,6 +19,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import com.franceaoc.app.Constants;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.service.CommuneService;
 import com.jwetherell.augmented_reality.data.DataSource;
@@ -35,9 +36,11 @@ public class CommunesDataSource extends DataSource
 
     private List<Marker> mCachedMarkers = new ArrayList<Marker>();
     private static Bitmap icon = null;
+    private Context mContext;
 
     public CommunesDataSource( Context context , int iconRes )
     {
+        mContext = context;
         Resources res = context.getResources();
         if (res == null)
         {
@@ -59,7 +62,7 @@ public class CommunesDataSource extends DataSource
 
     public List<Marker> getMarkers()
     {
-        List<Commune> listPOIs = CommuneService.getNearestCommunes();
+        List<Commune> listPOIs = CommuneService.getNearestCommunes( mContext , Constants.MAX_POI_AR );
         for( Commune commune : listPOIs )
         {
             Marker marker = new CommuneMarker( commune.getTitle(), commune.getLatitude(), commune.getLongitude(), 0.0 , Color.DKGRAY, icon , commune.getId() );

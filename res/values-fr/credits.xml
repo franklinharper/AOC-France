@@ -6,13 +6,14 @@
         <item>*</item>
         <item>-= Opendata =- </item>
         <item>*</item>
-        <item>*This software uses data coming</item>
-        <item>*from the French gouvernment</item>
-        <item>*(Ministère de l\'Agriculture</item>
-        <item>*de la chasse et de la peche)</item>
-        <item>*published under the ODbL Open License"</item>
+        <item>*Cette application utilise des données</item>
+        <item>*concernant les aires d\'AOC</item>
+        <item>*provenant du Ministère de l\'Agriculture</item>
+        <item>*de la chasse et de la peche,</item>
+        <item>*diffusées sous "Licence Ouverte / Open License"</item>
         <item>*</item>
-        <item>*Data and license are available at :</item>
+        <item>*Ces données et la licence sont disponibles</item>
+        <item>*sur le site : </item>
         <item>*</item>
         <item>http://data.gouv.fr</item>
         <item>*</item>
@@ -20,11 +21,11 @@
         <item>*</item>
         <item>-= Credits =-</item>
         <item>*</item>
-        <item>Artistic Director</item>
+        <item>Directrice Artistique</item>
         <item>*Michele Roohani</item>
         <item>*</item>
         <item>*</item>
-        <item>Developers</item>
+        <item>Développeurs</item>
         <item>*Pierre Gros</item>
         <item>*Frank Harper</item>
         <item>*Pierre Levy</item>
@@ -32,7 +33,7 @@
         <item>*</item>
         <item>*</item>
         <item>*</item>
-        <item>*Copyright (c) 2012 Al rights reserved</item>
+        <item>*Copyright (c) 2012 Tous droits réservés</item>
     </array>
 </resources>
 
