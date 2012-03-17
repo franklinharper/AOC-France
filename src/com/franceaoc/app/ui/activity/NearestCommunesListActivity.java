@@ -48,13 +48,24 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
 
     public void onCommuneSelected(String ci)
     {
-        startCommune(ci);
+//        startCommune(ci);
+        showOnMap(ci);
     }
     
     private void startCommune( String ci )
     {
         Intent intent = new Intent(Constants.ACTION_COMMUNE_AOC);
         intent.putExtra(Constants.EXTRA_COMMUNE_CI, ci );
+
+        startActivity(intent);
+    }
+    
+    private void showOnMap( String ci )
+    {
+        Intent intent = new Intent(Constants.ACTION_MAP);
+        Commune commune = CommuneService.get(ci);
+        intent.putExtra(Constants.EXTRA_POINT_LAT, commune.getLatitude() );
+        intent.putExtra(Constants.EXTRA_POINT_LON, commune.getLongitude() );
 
         startActivity(intent);
     }

@@ -61,7 +61,6 @@ public class CommuneAOCActivity extends FragmentActivity
         {
             if( first )
             {
-                sb.append( getString( R.string.label_list_aoc )).append("\n");
                 sb.append( aoc.getName() );
                 first = false;
             }

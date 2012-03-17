@@ -31,7 +31,6 @@ import com.franceaoc.app.map.POIMapView;
 import com.franceaoc.app.map.POIOverlayResources;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.service.CommuneService;
-import com.franceaoc.app.service.LocationService;
 import com.google.android.maps.*;
 import java.util.List;
 
@@ -41,9 +40,9 @@ import java.util.List;
  */
 public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapListener, POIMapView.OnPanChangeListener
 {
+
     private static final int ZOOM_DEFAULT = 12;
     private static final boolean MODE_SATELLITE = false;
-
     private POIMapView mMapView;
     private MapController mMapController;
     private LocationManager mLocationManager;
@@ -51,25 +50,32 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private List<Overlay> mMapOverlays;
     private CommuneOverlay mItemizedOverlay;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.map_activity );
+        setContentView(R.layout.map_activity);
 
-        mMapView = (POIMapView) findViewById( R.id.mapview );
+        mMapView = (POIMapView) findViewById(R.id.mapview);
         mMapView.setBuiltInZoomControls(true);
         mMapController = mMapView.getController();
-        mMapController.setZoom( getZoom());
-        mMapView.setSatellite( getSatellite() );
+        mMapController.setZoom(getZoom());
+        mMapView.setSatellite(getSatellite());
         mMapView.setOnPanChangeListener(this);
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        
-        if( Constants.DEMO )
+
+        double intentLatitude = getIntent().getDoubleExtra(Constants.EXTRA_POINT_LAT, 0.0);
+        double intentLongitude = getIntent().getDoubleExtra(Constants.EXTRA_POINT_LON, 0.0);
+
+        if ((intentLatitude != 0.0) && (intentLongitude != 0.0))
+        {
+            mMapCenter = convertLatLon(intentLatitude, intentLongitude);
+
+        }
+        else if (Constants.DEMO)
         {
             double lat = 47.07;
             double lon = 4.88;
@@ -91,7 +97,6 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         mMapView.invalidate();
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -104,12 +109,11 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         return false;
     }
 
-
     protected int getZoom()
     {
         return ZOOM_DEFAULT;
     }
-    
+
     protected boolean getSatellite()
     {
         return MODE_SATELLITE;
@@ -136,60 +140,60 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private void setPOIOverlay()
     {
         mMapOverlays = mMapView.getOverlays();
-        Drawable marker = getResources().getDrawable( R.drawable.wine_marker );
-        
+        Drawable marker = getResources().getDrawable(R.drawable.wine_marker);
+
         POIOverlayResources res = new POIOverlayResources();
-        res.setBottomOffset( 50 );
+        res.setBottomOffset(50);
         res.setCloseId(R.id.balloon_close);
         res.setInnerLayoutId(R.id.balloon_inner_layout);
         res.setItemSnippetId(R.id.balloon_item_snippet);
         res.setItemTitleId(R.id.balloon_item_title);
         res.setLayout(R.layout.balloon_overlay);
         res.setMainLayoutId(R.id.balloon_main_layout);
-        
-        mItemizedOverlay = new CommuneOverlay(marker , mMapView , res , this );
-        
-        for (Commune commune : CommuneService.getNearestCommunes( this , mMapCenter , Constants.MAX_POI_MAP ) )
+
+        mItemizedOverlay = new CommuneOverlay(marker, mMapView, res, this);
+
+        for (Commune commune : CommuneService.getNearestCommunes(this, mMapCenter, Constants.MAX_POI_MAP))
         {
-            GeoPoint point = new GeoPoint( (int) (commune.getLatitude() * 1E6) , (int) (commune.getLongitude() * 1E6) );
-            mItemizedOverlay.addOverlay( new CommuneOverlayItem( point , commune.getTitle() , commune.getDesciption(), commune.getId()));
+            GeoPoint point = new GeoPoint((int) (commune.getLatitude() * 1E6), (int) (commune.getLongitude() * 1E6));
+            mItemizedOverlay.addOverlay(new CommuneOverlayItem(point, commune.getTitle(), commune.getDesciption(), commune.getId()));
         }
 
         mMapOverlays.clear();
         mMapOverlays.add(mItemizedOverlay);
-        
+
         mMapView.postInvalidate();
     }
 
     public void onTap(String ci)
     {
-        startCommuneActivity( ci );
+        startCommuneActivity(ci);
     }
-    
-    private void startCommuneActivity( String ci )
+
+    private void startCommuneActivity(String ci)
     {
         Intent intent = new Intent(Constants.ACTION_COMMUNE_AOC);
-        intent.putExtra(Constants.EXTRA_COMMUNE_CI, ci );
+        intent.putExtra(Constants.EXTRA_COMMUNE_CI, ci);
 
         startActivity(intent);
     }
 
     public void onPanChange(GeoPoint newCenter, GeoPoint oldCenter)
     {
-        
+
         mMapCenter = newCenter;
-        
-        if( distance( newCenter , oldCenter ) > 3000.0 )
+
+        if (distance(newCenter, oldCenter) > 3000.0)
         {
             setPOIOverlay();
-            Log.i( Constants.TAG, "Rebuild overlay");
-        }    
+            Log.i(Constants.TAG, "Rebuild overlay");
+        }
     }
-    
-    private float distance( GeoPoint p1, GeoPoint p2 )
+
+    private float distance(GeoPoint p1, GeoPoint p2)
     {
         float[] results = new float[3];
-        Location.distanceBetween(p1.getLatitudeE6()/1E6, p1.getLongitudeE6()/1E6, p2.getLatitudeE6()/1E6, p2.getLongitudeE6()/1E6, results);
+        Location.distanceBetween(p1.getLatitudeE6() / 1E6, p1.getLongitudeE6() / 1E6, p2.getLatitudeE6() / 1E6, p2.getLongitudeE6() / 1E6, results);
         return results[0];
     }
 }

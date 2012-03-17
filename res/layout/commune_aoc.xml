@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" 
-    android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="#FAF9EC" >
+              android:orientation="vertical" 
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/bg_dashboard" >
 
-         <TextView android:id="@+id/name_commune"
+    <TextView style="@style/commune_text"
+            android:id="@+id/name_commune"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/large_font_list"
-            android:padding="@dimen/padding_text"
-            android:textColor="#000000"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content" />
             
-        <TextView android:id="@+id/name_aoc"
+    <TextView style="@style/label_text" 
+            android:text="@string/label_list_aoc"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:textSize="@dimen/medium_font"
-            android:padding="@dimen/padding_text"
-            android:textColor="#000000"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content" />
 
+    <TextView style="@style/aoc_text" 
+            android:id="@+id/name_aoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
 </LinearLayout>
