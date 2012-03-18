@@ -52,7 +52,7 @@ public class OptionsActivity extends PreferenceActivity {
 	protected void onStop() {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		boolean _isGps = prefs.getBoolean("geolocalisationIsActive", false);
-		int _dist = 0;
+		int _dist;
 		
 		try {
 			_dist = Integer.parseInt(prefs.getString("geolocalisationDistance", "5"));

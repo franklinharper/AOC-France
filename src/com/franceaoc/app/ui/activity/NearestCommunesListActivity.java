@@ -15,7 +15,6 @@
 package com.franceaoc.app.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import com.franceaoc.app.Constants;
@@ -23,24 +22,28 @@ import com.franceaoc.app.R;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.service.CommuneService;
 import com.franceaoc.app.ui.fragment.NearestCommunesListFragment;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EActivity;
 import java.util.List;
 
 /**
  *
  * @author pierre
  */
+
+@EActivity(R.layout.nearest_communes_activity)
 public class NearestCommunesListActivity extends FragmentActivity implements NearestCommunesListFragment.CommuneListEventsCallback
 {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
+    @AfterViews
+    void updateUI()
     {
-        super.onCreate(savedInstanceState);
+        final FragmentManager fm = getSupportFragmentManager();
+        NearestCommunesListFragment fragment = (NearestCommunesListFragment) fm.findFragmentById(R.id.fragment_nearest_communes_list);
 
-        setContentView(R.layout.nearest_communes_activity);
-
-        updateUI();
+        List<Commune> listCommunes = CommuneService.getNearestCommunes( this , Constants.MAX_POI_LIST );
+        fragment.update( listCommunes );
     }
+
     
     @Override
     protected void onResume()
@@ -53,16 +56,7 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
 
     public void onCommuneSelected(String ci)
     {
-//        startCommune(ci);
         showOnMap(ci);
-    }
-    
-    private void startCommune( String ci )
-    {
-        Intent intent = new Intent(Constants.ACTION_COMMUNE_AOC);
-        intent.putExtra(Constants.EXTRA_COMMUNE_CI, ci );
-
-        startActivity(intent);
     }
     
     private void showOnMap( String ci )
@@ -73,15 +67,6 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
         intent.putExtra(Constants.EXTRA_POINT_LON, commune.getLongitude() );
 
         startActivity(intent);
-    }
-
-    private void updateUI()
-    {
-        final FragmentManager fm = getSupportFragmentManager();
-        NearestCommunesListFragment fragment = (NearestCommunesListFragment) fm.findFragmentById(R.id.fragment_nearest_communes_list);
-
-        List<Commune> listCommunes = CommuneService.getNearestCommunes( this , Constants.MAX_POI_LIST );
-        fragment.update( listCommunes );
     }
 
 }

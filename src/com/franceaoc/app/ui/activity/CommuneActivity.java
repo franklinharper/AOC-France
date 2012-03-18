@@ -15,10 +15,7 @@
 package com.franceaoc.app.ui.activity;
 
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.widget.TextView;
 
 import com.franceaoc.app.Constants;
@@ -26,34 +23,36 @@ import com.franceaoc.app.R;
 import com.franceaoc.app.model.AOC;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.service.CommuneService;
+import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.Extra;
+import com.googlecode.androidannotations.annotations.ViewById;
 
 /**
  *
  * @author pierre
  */
-public class CommuneAOCActivity extends FragmentActivity 
+
+@EActivity(R.layout.commune_aoc)
+public class CommuneActivity extends FragmentActivity 
 {
-
     private Commune mCurrentCommune;
+    
+    @ViewById( R.id.name_commune )
+    TextView mTvCommune;
 
-    /**
-     * Called when the activity is first created.
-     */
-    @Override
-    public void onCreate(Bundle savedInstanceState)
+    @ViewById(R.id.name_aoc)
+    TextView mTvAOC;
+    
+    @Extra(Constants.EXTRA_COMMUNE_CI)
+    String mCI;
+    
+    @AfterViews
+    void updateUI()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.commune_aoc);
-        FragmentManager fm = getSupportFragmentManager();
+        mCurrentCommune = CommuneService.get(mCI);
 
-        Intent intent = getIntent();
-        String ci = intent.getStringExtra(Constants.EXTRA_COMMUNE_CI);
-        mCurrentCommune = CommuneService.get(ci);
-
-
-        TextView tvCommune = (TextView) findViewById(R.id.name_commune);
-        tvCommune.setText(mCurrentCommune.getName());
-        TextView tvAOC = (TextView) findViewById(R.id.name_aoc);
+        mTvCommune.setText(mCurrentCommune.getName());
         
         StringBuilder sb = new StringBuilder();
         boolean first = true;
@@ -70,8 +69,6 @@ public class CommuneAOCActivity extends FragmentActivity
                 sb.append( aoc.getName() );
             }
         }
-
-        tvAOC.setText( sb.toString() );
-
+        mTvAOC.setText( sb.toString() );
     }
 }
