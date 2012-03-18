@@ -55,13 +55,13 @@ public class LoadingDataService
                     Double lat = Double.parseDouble( splitarray[4]);
                     Double lon = Double.parseDouble(splitarray[5]);
 
-                    Commune c = CommuneService.get(insee);
+                    Commune c = CommuneService.instance().get(insee);
                     if (c == null)
                     {
                         c = new Commune(insee, commune);
                         c.setLatitude(lat);
                         c.setLongitude(lon);
-                        CommuneService.register(c);
+                        CommuneService.instance().register(c);
                     }
 
                     AOC a = AOCService.get(idAoc);
@@ -76,6 +76,9 @@ public class LoadingDataService
             }
             //Close the input stream
             in.close();
+            Log.i( Constants.TAG, "Number of records loaded : " + i );
+            Log.i( Constants.TAG, "Number of communes loaded : " + CommuneService.instance().getCount() );
+            Log.i( Constants.TAG, "Number of AOC loaded : " + AOCService.getAOCList().size() );
         }
         catch (Exception e)
         {//Catch exception if any

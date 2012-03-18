@@ -151,7 +151,7 @@ public class ProximityService extends BroadcastReceiver
     private void showNotification(Context context, String communeId)
     {
 
-        Commune com = CommuneService.get(communeId);
+        Commune com = CommuneService.instance().get(communeId);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

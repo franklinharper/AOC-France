@@ -39,7 +39,7 @@ public class POIMapView extends MapView
         public void onPanChange( GeoPoint newCenter, GeoPoint oldCenter);
     }
 
-    private static final long TIMEOUT = 2000L;
+    private static final long TIMEOUT = 1000L;
     private boolean mTouched = false;
     private GeoPoint mLastMapCenter;
     private Timer mPanDelay = new Timer();

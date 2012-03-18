@@ -29,31 +29,29 @@ import java.util.*;
  */
 public class CommuneService
 {
-
     private static final Map< String, Commune> mRegistry = new HashMap< String, Commune>();
     private static final CommuneService mSingleton = new CommuneService();
 
     private CommuneService()
     {
-        
     }
-    
-    public static CommuneService instance()
+
+    public static synchronized CommuneService instance()
     {
         return mSingleton;
     }
-    
-    public static void register(Commune commune)
+
+    public void register(Commune commune)
     {
         mRegistry.put(commune.getId(), commune);
     }
 
-    public static boolean isRegistered(String id)
+    public boolean isRegistered(String id)
     {
         return mRegistry.containsKey(id);
     }
 
-    public static Commune get(String insee)
+    public Commune get(String insee)
     {
         return mRegistry.get(insee);
     }
@@ -61,15 +59,16 @@ public class CommuneService
     private Collection<Commune> getCommunesList()
     {
         Collection<Commune> list;
-        synchronized( mRegistry )
+        synchronized (mRegistry)
         {
             list = new ArrayList<Commune>( mRegistry.values() );
         }
         return list;
     }
 
-    private synchronized List<Commune> getNearestPOI(Collection<Commune> list, double latitude, double longitude, int max, long radius)
+    private synchronized List<Commune> getNearestPOI(double latitude, double longitude, int max, long radius)
     {
+        Collection<Commune> list = getCommunesList();
         Log.i(Constants.TAG, "getNearestPOI - begin");
         List<SortablePOI> listSort = new ArrayList<SortablePOI>();
         for (Commune poi : list)
@@ -98,34 +97,35 @@ public class CommuneService
         return listNearest;
     }
 
-    public List<Commune> getNearestCommunes( Context context , int max )
+    public List<Commune> getNearestCommunes(Context context, int max)
     {
-        Collection<Commune> all = getCommunesList();
-        
         double lat, lon;
-        if( Constants.DEMO )
+        if (Constants.DEMO)
         {
             lat = Constants.DEMO_LAT;
             lon = Constants.DEMO_LON;
         }
         else
         {
-            Location location = LocationService.getLocation( context );
+            Location location = LocationService.getLocation(context);
             lat = location.getLatitude();
             lon = location.getLongitude();
         }
-        return getNearestPOI(all, lat, lon, max , 1000000);
+
+        return getNearestPOI(lat, lon, max, 1000000);
 
     }
-    
-    public List<Commune> getNearestCommunes( Context context , GeoPoint point, int max )
-    {
-        Collection<Commune> all = getCommunesList();
- 
-        double lat = ( (double) point.getLatitudeE6()) / 1E6;
-        double lon = ( (double) point.getLongitudeE6()) / 1E6;
-        
-        return getNearestPOI(all, lat, lon, max , 1000000);
-   }
 
+    public List<Commune> getNearestCommunes(Context context, GeoPoint point, int max)
+    {
+        double lat = ((double) point.getLatitudeE6()) / 1E6;
+        double lon = ((double) point.getLongitudeE6()) / 1E6;
+
+        return getNearestPOI( lat, lon, max, 1000000);
+    }
+
+    public int getCount()
+    {
+        return mRegistry.size();
+    }
 }

@@ -50,7 +50,7 @@ public class CommuneActivity extends FragmentActivity
     @AfterViews
     void updateUI()
     {
-        mCurrentCommune = CommuneService.get(mCI);
+        mCurrentCommune = CommuneService.instance().get(mCI);
 
         mTvCommune.setText(mCurrentCommune.getName());
         

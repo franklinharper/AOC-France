@@ -22,7 +22,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import com.franceaoc.app.Constants;
 import com.franceaoc.app.R;
 import com.franceaoc.app.map.CommuneOverlayItem;

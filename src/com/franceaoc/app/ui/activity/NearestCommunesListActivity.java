@@ -62,7 +62,7 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
     private void showOnMap( String ci )
     {
         Intent intent = new Intent(Constants.ACTION_MAP);
-        Commune commune = CommuneService.get(ci);
+        Commune commune = CommuneService.instance().get(ci);
         intent.putExtra(Constants.EXTRA_POINT_LAT, commune.getLatitude() );
         intent.putExtra(Constants.EXTRA_POINT_LON, commune.getLongitude() );
 
