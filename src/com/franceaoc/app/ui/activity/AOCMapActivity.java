@@ -41,7 +41,8 @@ import java.util.List;
 public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapListener, POIMapView.OnPanChangeListener
 {
 
-    private static final int ZOOM_DEFAULT = 12;
+    private static final int ZOOM_GLOBAL = 10;
+    private static final int ZOOM_FOCUSED = 13;
     private static final boolean MODE_SATELLITE = false;
     private POIMapView mMapView;
     private MapController mMapController;
@@ -49,6 +50,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private GeoPoint mMapCenter;
     private List<Overlay> mMapOverlays;
     private CommuneOverlay mItemizedOverlay;
+    private int mZoom;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -56,23 +58,20 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
 
-        mMapView = (POIMapView) findViewById(R.id.mapview);
-        mMapView.setBuiltInZoomControls(true);
-        mMapController = mMapView.getController();
-        mMapController.setZoom(getZoom());
-        mMapView.setSatellite(getSatellite());
-        mMapView.setOnPanChangeListener(this);
-        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
         double intentLatitude = getIntent().getDoubleExtra(Constants.EXTRA_POINT_LAT, 0.0);
         double intentLongitude = getIntent().getDoubleExtra(Constants.EXTRA_POINT_LON, 0.0);
 
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        mZoom = ZOOM_GLOBAL;
+        
         if ((intentLatitude != 0.0) && (intentLongitude != 0.0))
         {
+            // the activity has been lauched with a commune's coordinate in extras
             mMapCenter = convertLatLon(intentLatitude, intentLongitude);
+            mZoom = ZOOM_FOCUSED;
 
         }
         else if (Constants.DEMO)
@@ -90,6 +89,13 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
                 mMapCenter = convertGeoPoint(location);
             }
         }
+        mMapView = (POIMapView) findViewById(R.id.mapview);
+        mMapView.setBuiltInZoomControls(true);
+        mMapController = mMapView.getController();
+        mMapController.setZoom( mZoom );
+        mMapView.setSatellite( MODE_SATELLITE );
+        mMapView.setOnPanChangeListener(this);
+
         mMapController.animateTo(mMapCenter);
 
         setPOIOverlay();
@@ -107,16 +113,6 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     protected boolean isRouteDisplayed()
     {
         return false;
-    }
-
-    protected int getZoom()
-    {
-        return ZOOM_DEFAULT;
-    }
-
-    protected boolean getSatellite()
-    {
-        return MODE_SATELLITE;
     }
 
     private GeoPoint convertGeoPoint(Location location)
