@@ -40,7 +40,7 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
         final FragmentManager fm = getSupportFragmentManager();
         NearestCommunesListFragment fragment = (NearestCommunesListFragment) fm.findFragmentById(R.id.fragment_nearest_communes_list);
 
-        List<Commune> listCommunes = CommuneService.getNearestCommunes( this , Constants.MAX_POI_LIST );
+        List<Commune> listCommunes = CommuneService.instance().getNearestCommunes( this , Constants.MAX_POI_LIST );
         fragment.update( listCommunes );
     }
 

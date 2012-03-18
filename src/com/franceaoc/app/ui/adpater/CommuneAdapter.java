@@ -93,7 +93,7 @@ public class CommuneAdapter implements ListAdapter
      */
     public boolean hasStableIds()
     {
-        return true;
+        return false;
     }
 
     /**

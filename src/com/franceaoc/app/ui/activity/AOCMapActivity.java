@@ -104,17 +104,17 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     protected boolean isRouteDisplayed()
     {
         return false;
     }
 
+    @Override
+    protected void onPause()
+    {
+        mMapView.cancelUpdateTask();
+        super.onPause();
+    }
     private GeoPoint convertGeoPoint(Location location)
     {
         if (location != null)
@@ -149,7 +149,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
 
         mItemizedOverlay = new CommuneOverlay(marker, mMapView, res, this);
 
-        for (Commune commune : CommuneService.getNearestCommunes(this, mMapCenter, Constants.MAX_POI_MAP))
+        for (Commune commune : CommuneService.instance().getNearestCommunes(this, mMapCenter, Constants.MAX_POI_MAP))
         {
             GeoPoint point = new GeoPoint((int) (commune.getLatitude() * 1E6), (int) (commune.getLongitude() * 1E6));
             mItemizedOverlay.addOverlay(new CommuneOverlayItem(point, commune.getTitle(), commune.getDesciption(), commune.getId()));

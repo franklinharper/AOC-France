@@ -78,6 +78,7 @@ public class ProximityService extends BroadcastReceiver
 
             Log.d(Constants.TAG, "Désactivation des points");
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        /* TOFIX : Comment made by PL getCommunesList now private  
             for (Commune poi : CommuneService.getCommunesList())
             {
                 Intent newIntent = new Intent(Constants.ACTION_GEOLOC_NOTIFICATION);
@@ -86,11 +87,11 @@ public class ProximityService extends BroadcastReceiver
                 locationManager.removeProximityAlert(proximityIntent);
                 //removeEvent(context, poi);
             }
-
+*/
             if (geolocalisationIsActive)
             {
                 Log.d(Constants.TAG, "Activation des points !");
-
+        /* TOFIX : Comment made by PL getCommunesList now private  
                 for (Commune poi : CommuneService.getCommunesList())
                 {
                     Intent newIntent = new Intent(Constants.ACTION_GEOLOC_NOTIFICATION);
@@ -103,6 +104,7 @@ public class ProximityService extends BroadcastReceiver
                     return;
                     //addEvent(context, poi, geolocalisationDistance);
                 }
+  */
             }
 
         }

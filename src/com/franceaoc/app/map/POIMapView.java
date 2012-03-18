@@ -107,4 +107,10 @@ public class POIMapView extends MapView
             }, TIMEOUT);
         }
     }
+    
+    public void cancelUpdateTask()
+    {
+        mPanDelay.cancel();
+        mPanDelay.purge();
+    }
 }

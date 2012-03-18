@@ -62,7 +62,7 @@ public class CommunesDataSource extends DataSource
 
     public List<Marker> getMarkers()
     {
-        List<Commune> listPOIs = CommuneService.getNearestCommunes( mContext , Constants.MAX_POI_AR );
+        List<Commune> listPOIs = CommuneService.instance().getNearestCommunes( mContext , Constants.MAX_POI_AR );
         for( Commune commune : listPOIs )
         {
             Marker marker = new CommuneMarker( commune.getTitle(), commune.getLatitude(), commune.getLongitude(), 0.0 , Color.DKGRAY, icon , commune.getId() );
