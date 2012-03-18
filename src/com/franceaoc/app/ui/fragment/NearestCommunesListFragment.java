@@ -17,9 +17,11 @@ package com.franceaoc.app.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ListView;
+import com.franceaoc.app.Constants;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.ui.adpater.CommuneAdapter;
 import java.util.List;
@@ -102,6 +104,10 @@ public class NearestCommunesListFragment extends ListFragment
         {
             CommuneAdapter adapter = new CommuneAdapter( activity, listCommunes );
             setListAdapter(adapter);
+        }
+        else
+        {
+            Log.i( Constants.TAG, "Activity not found" );
         }
 
     }

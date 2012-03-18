@@ -16,12 +16,14 @@ package com.franceaoc.app.ui.adpater;
 
 import android.app.Activity;
 import android.database.DataSetObserver;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import com.franceaoc.app.Constants;
 import com.franceaoc.app.R;
 import com.franceaoc.app.model.Commune;
 import java.util.List;
@@ -44,6 +46,7 @@ public class CommuneAdapter implements ListAdapter
     {
         mActivity = activity;
         mList = list;
+        Log.i( Constants.TAG, "Commune adapter created");
 
     }
 

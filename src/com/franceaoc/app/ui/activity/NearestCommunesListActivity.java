@@ -39,12 +39,17 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
 
         setContentView(R.layout.nearest_communes_activity);
 
-        FragmentManager fm = getSupportFragmentManager();
-        NearestCommunesListFragment fragment = (NearestCommunesListFragment) fm.findFragmentById(R.id.fragment_nearest_communes_list);
-
-        List<Commune> listCommunes = CommuneService.getNearestCommunes( this , Constants.MAX_POI_LIST );
-        fragment.update( listCommunes );
+        updateUI();
     }
+    
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        updateUI();
+    }
+    
+    
 
     public void onCommuneSelected(String ci)
     {
@@ -68,6 +73,15 @@ public class NearestCommunesListActivity extends FragmentActivity implements Nea
         intent.putExtra(Constants.EXTRA_POINT_LON, commune.getLongitude() );
 
         startActivity(intent);
+    }
+
+    private void updateUI()
+    {
+        final FragmentManager fm = getSupportFragmentManager();
+        NearestCommunesListFragment fragment = (NearestCommunesListFragment) fm.findFragmentById(R.id.fragment_nearest_communes_list);
+
+        List<Commune> listCommunes = CommuneService.getNearestCommunes( this , Constants.MAX_POI_LIST );
+        fragment.update( listCommunes );
     }
 
 }
