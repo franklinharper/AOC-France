@@ -15,7 +15,11 @@
 package com.franceaoc.app.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -104,4 +108,43 @@ public class DashboardActivity extends Activity
         Intent intent = new Intent(Constants.ACTION_OPTIONS);
         startActivity(intent);
     }
+    
+    
+        @Override
+    protected void onResume()
+    {
+        super.onResume();
+        final LocationManager manager = (LocationManager) getSystemService( LOCATION_SERVICE );
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+        {
+            buildAlertMessageNoLocation();
+        }
+    }
+
+
+    private void buildAlertMessageNoLocation()
+    {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage( R.string.message_activate_location ).setCancelable(false).setPositiveButton( getString( android.R.string.yes ), new DialogInterface.OnClickListener()
+        {
+
+            @Override
+            public void onClick( final DialogInterface dialog, final int id)
+            {
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            }
+        }).setNegativeButton( getString( android.R.string.no ) , new DialogInterface.OnClickListener()
+        {
+
+            @Override
+            public void onClick(final DialogInterface dialog, final int id)
+            {
+                dialog.cancel();
+                finish();
+            }
+        });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 }

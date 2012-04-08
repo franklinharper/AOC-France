@@ -18,6 +18,7 @@
     <string name="button_ar">Réalitée augmentée</string>
     
     <string name="label_list_aoc">Liste des AOC de la commune : </string>
+    <string name="message_activate_location">Les services de géolocalisation (GPS ou réseau) semblent désactivés !\n\nVoulez-vous en activer un pour utiliser cette application ?</string>
     
     
 </resources>
