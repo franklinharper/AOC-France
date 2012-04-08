@@ -10,6 +10,14 @@
             android:id="@+id/name_commune"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+    <ImageView 
+            android:src="@drawable/button_show_on_map"
+            android:id="@+id/button_show_on_map"
+            android:layout_gravity="center"
+            android:padding="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/> 
             
     <TextView style="@style/label_text" 
             android:text="@string/label_list_aoc"

@@ -15,6 +15,8 @@
 package com.franceaoc.app.ui.activity;
 
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import com.franceaoc.app.model.AOC;
 import com.franceaoc.app.model.Commune;
 import com.franceaoc.app.service.CommuneService;
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.Click;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.Extra;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -70,5 +73,14 @@ public class CommuneActivity extends FragmentActivity
             }
         }
         mTvAOC.setText( sb.toString() );
+    }
+    
+    @Click (R.id.button_show_on_map )
+    public void showOnMap()
+    {
+        Intent intent = new Intent( Constants.ACTION_MAP );
+        intent.putExtra(Constants.EXTRA_POINT_LAT, mCurrentCommune.getLatitude() );
+        intent.putExtra(Constants.EXTRA_POINT_LON, mCurrentCommune.getLongitude() );
+        startActivity(intent);
     }
 }
