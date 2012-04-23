@@ -20,4 +20,5 @@
     <string name="label_list_aoc">List of the AOC\'s town : </string>
     <string name="message_activate_location">Location services (GPS and network) seem to be disabled!\n\nDo you want to enable one of them to use this application ?</string>
         
+    <string name="loading_map_poi">Loading of %1$d towns closest to the center of the map ...</string>    
 </resources>

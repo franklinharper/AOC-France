@@ -40,7 +40,7 @@ public class Constants
     public static final boolean DEMO = false;
     
     public static final int MAX_POI_AR = 20;
-    public static final int MAX_POI_MAP = 200;
+    public static final int MAX_POI_MAP = 300;
     public static final int MAX_POI_LIST = 200;
     public static final String EXTRA_POINT_LAT = "lat";
     public static final String EXTRA_POINT_LON = "lon";

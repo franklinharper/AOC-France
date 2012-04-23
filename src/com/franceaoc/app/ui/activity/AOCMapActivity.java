@@ -14,6 +14,7 @@
  */
 package com.franceaoc.app.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import com.franceaoc.app.Constants;
 import com.franceaoc.app.R;
@@ -43,6 +46,8 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private static final int ZOOM_GLOBAL = 10;
     private static final int ZOOM_FOCUSED = 13;
     private static final boolean MODE_SATELLITE = false;
+    private static final int DISMISS = 0;
+    private static final int SHOW = 1;
     private POIMapView mMapView;
     private MapController mMapController;
     private LocationManager mLocationManager;
@@ -50,6 +55,9 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private List<Overlay> mMapOverlays;
     private CommuneOverlay mItemizedOverlay;
     private int mZoom;
+    private static ProgressDialog mDialogProgress;
+    private static boolean mProgress;
+    private Handler mHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -65,7 +73,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mZoom = ZOOM_GLOBAL;
-        
+
         if ((intentLatitude != 0.0) && (intentLongitude != 0.0))
         {
             // the activity has been lauched with a commune's coordinate in extras
@@ -91,8 +99,8 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         mMapView = (POIMapView) findViewById(R.id.mapview);
         mMapView.setBuiltInZoomControls(true);
         mMapController = mMapView.getController();
-        mMapController.setZoom( mZoom );
-        mMapView.setSatellite( MODE_SATELLITE );
+        mMapController.setZoom(mZoom);
+        mMapView.setSatellite(MODE_SATELLITE);
         mMapView.setOnPanChangeListener(this);
 
         mMapController.animateTo(mMapCenter);
@@ -100,6 +108,46 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         setPOIOverlay();
 
         mMapView.invalidate();
+
+        mHandler = new UIHandler();
+
+
+    }
+
+    private void showProgress()
+    {
+        Message msg = new Message();
+        msg.what = SHOW;
+        mHandler.sendMessage(msg);
+    }
+
+    private void hideProgress()
+    {
+        Message msg = new Message();
+        msg.what = DISMISS;
+        mHandler.sendMessage(msg);
+    }
+
+    class UIHandler extends Handler
+    {
+ 
+        @Override
+        public void handleMessage(Message msg)
+        {
+            switch (msg.what)
+            {
+                case SHOW:
+                    String message = String.format( getString( R.string.loading_map_poi ) , Constants.MAX_POI_MAP );
+                    mDialogProgress = ProgressDialog.show(AOCMapActivity.this, "", message , true);
+                    mProgress = true;
+                    break;
+
+                case DISMISS:
+                    mDialogProgress.dismiss();
+                    mProgress = false;
+                    break;
+            }
+        }
     }
 
     @Override
@@ -114,6 +162,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         mMapView.cancelUpdateTask();
         super.onPause();
     }
+
     private GeoPoint convertGeoPoint(Location location)
     {
         if (location != null)
@@ -158,6 +207,10 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         mMapOverlays.add(mItemizedOverlay);
 
         mMapView.postInvalidate();
+        if (mProgress)
+        {
+            hideProgress();
+        }
     }
 
     public void onTap(String ci)
@@ -180,9 +233,11 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
 
         if (distance(newCenter, oldCenter) > 3000.0)
         {
+            showProgress();
             setPOIOverlay();
             Log.i(Constants.TAG, "Rebuild overlay");
         }
+
     }
 
     private float distance(GeoPoint p1, GeoPoint p2)
