@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical" 
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/bg_dashboard" >
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" >
 
-    <TextView style="@style/commune_text"
+    <LinearLayout
+        android:orientation="vertical" 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_dashboard" >
+
+        <TextView style="@style/commune_text"
             android:id="@+id/name_commune"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    <ImageView 
+        <ImageView 
             android:src="@drawable/button_show_on_map"
             android:id="@+id/button_show_on_map"
             android:layout_gravity="center"
@@ -19,14 +23,15 @@
             android:layout_width="50dp"
             android:layout_height="50dp"/> 
             
-    <TextView style="@style/label_text" 
+        <TextView style="@style/label_text" 
             android:text="@string/label_list_aoc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-    <TextView style="@style/aoc_text" 
+        <TextView style="@style/aoc_text" 
             android:id="@+id/name_aoc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
