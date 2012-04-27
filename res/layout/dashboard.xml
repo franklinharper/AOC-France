@@ -22,7 +22,7 @@
             
             <Button
                 android:id="@+id/button_map"
-                android:background="@drawable/aoc_close"
+                android:background="@drawable/aoc_close_button"
                 android:layout_width="@dimen/dashboard_button"
                 android:layout_height="@dimen/dashboard_button" />
                     
