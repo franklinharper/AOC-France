@@ -90,19 +90,26 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
             {
                 mMapCenter = GeoUtils.convertGeoPoint(location);
             }
+            else
+            {
+                double lat = 47.07;
+                double lon = 4.88;
+                mMapCenter = GeoUtils.convertLatLon(lat, lon);
+            }    
         }
         mMapView = (POIMapView) findViewById(R.id.mapview);
         mMapView.setBuiltInZoomControls(true);
         mMapController = mMapView.getController();
         mMapController.setZoom(mZoom);
+        mMapController.animateTo(mMapCenter);
         mMapView.setSatellite(MODE_SATELLITE);
         mMapView.setOnPanChangeListener(this);
 
-        mMapController.animateTo(mMapCenter);
         mHandler = new UIHandler();
-
+        
         initOverlay();
         updateUI();
+
 
     }
 

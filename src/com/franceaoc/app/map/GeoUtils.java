@@ -15,6 +15,7 @@
 package com.franceaoc.app.map;
 
 import android.location.Location;
+import com.franceaoc.app.Constants;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 
@@ -44,9 +45,15 @@ public class GeoUtils
 
     public static long calculateRadius( MapView mapView )
     {
+        int latitudeSpan = mapView.getLatitudeSpan();
+        int longitudeSpan = mapView.getLongitudeSpan();
+        if( latitudeSpan == 0 || longitudeSpan == 0 )
+        {
+            return Constants.RADIUS_DEFAULT;
+        }
         GeoPoint center = mapView.getMapCenter();
-        GeoPoint a = new GeoPoint( center.getLatitudeE6() + ( mapView.getLatitudeSpan() / 2 ), center.getLongitudeE6() + ( mapView.getLongitudeSpan() / 2 ));
-        GeoPoint b = new GeoPoint( center.getLatitudeE6() - ( mapView.getLatitudeSpan() / 2 ), center.getLongitudeE6() - ( mapView.getLongitudeSpan() / 2 ));
+        GeoPoint a = new GeoPoint( center.getLatitudeE6() + ( latitudeSpan / 2 ), center.getLongitudeE6() + ( longitudeSpan / 2 ));
+        GeoPoint b = new GeoPoint( center.getLatitudeE6() - ( latitudeSpan / 2 ), center.getLongitudeE6() - ( longitudeSpan / 2 ));
         return (long) ( distance( a , b ) / 2 );
     }
 

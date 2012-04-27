@@ -44,6 +44,6 @@ public class Constants
     public static final int MAX_POI_LIST = 200;
     public static final String EXTRA_POINT_LAT = "lat";
     public static final String EXTRA_POINT_LON = "lon";
-
+    public static final long RADIUS_DEFAULT = 200L;
    
 }
