@@ -71,12 +71,12 @@ public class DashboardActivity extends Activity
     /**
      * create the menu items
      */
-    public void populateMenu(Menu menu)
+/*    public void populateMenu(Menu menu)
     {
         MenuItem item1 = menu.add(0, Menu1, Menu1, "MenuOption1");
         item1.setIcon(R.drawable.settings_button);
     }
-
+*/
     /**
      * hook into menu button for activity
      */

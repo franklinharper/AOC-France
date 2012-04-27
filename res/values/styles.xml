@@ -36,14 +36,4 @@
         <item name="android:padding">@dimen/padding_icon</item>
     </style>
 
-    <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/custom_ratingbar</item>
-     </style>   
-     
-     <style name="wineRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/wine_rating_bar_full</item>
-        <item name="android:minHeight">30dip</item>
-        <item name="android:maxHeight">30dip</item>
-    </style>
-
 </resources>

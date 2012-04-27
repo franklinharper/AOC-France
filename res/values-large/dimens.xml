@@ -6,8 +6,8 @@
     <dimen name="dashboard_button">200dp</dimen>
     <dimen name="large_font_list">16sp</dimen>
     <dimen name="title_font">30sp</dimen>
-    <dimen name="padding">10dp</dimen>
-    <dimen name="padding_pane">10dp</dimen>
+<!--    <dimen name="padding">10dp</dimen>
+    <dimen name="padding_pane">10dp</dimen> -->
     <dimen name="padding_text">2dp</dimen>
     <dimen name="padding_icon">30dp</dimen>
     <dimen name="padding_title">40dp</dimen>

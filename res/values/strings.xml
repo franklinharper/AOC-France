@@ -2,16 +2,10 @@
 <resources>
     <string name="app_name">AOC France</string>
 
-    <string name="title_bar">AOC France</string> 
-
     <!-- Credits screen -->
     <string name="credits_current_version">Version 1.0.0</string>
     <string name="credits_app_name">AOC France</string>
         
-    <string name="alert_dialog_ok">Vote</string> 
-    <string name="alert_dialog_cancel">Cancel</string> 
-    <string name="alert_dialog_title">Make a comment</string> 
-    
     <string name="button_map">Map</string>
     <string name="button_list_around">Around me</string>
     <string name="button_about">About</string>
@@ -20,5 +14,5 @@
     <string name="label_list_aoc">List of the AOC\'s town : </string>
     <string name="message_activate_location">Location services (GPS and network) seem to be disabled!\n\nDo you want to enable one of them to use this application ?</string>
         
-    <string name="message_too_many_markers">Zoom too large. Too many markers!\nOnly the %1$d towns closest to the center of the map are displayed ...</string>    
+    <string name="message_too_many_markers">Zoom too large. Too many markers!\nOnly the %1$d towns closest to the center of the map are displayed.</string>    
 </resources>

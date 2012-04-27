@@ -2,15 +2,9 @@
 <resources>
     <string name="app_name">AOC France</string>
 
-    <string name="title_bar">AOC France</string> 
-
     <!-- Credits screen -->
     <string name="credits_current_version">Version 1.0.0</string>
     <string name="credits_app_name">AOC France</string>
-    
-    <string name="alert_dialog_ok">Voter</string> 
-    <string name="alert_dialog_cancel">Annuler</string> 
-    <string name="alert_dialog_title">Donner un avis</string> 
     
     <string name="button_map">Carte</string>
     <string name="button_list_around">Liste à proximité</string>
