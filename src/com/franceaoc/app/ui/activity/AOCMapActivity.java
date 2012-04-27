@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.franceaoc.app.Constants;
 import com.franceaoc.app.R;
 import com.franceaoc.app.map.CommuneOverlay;
+import com.franceaoc.app.map.GeoUtils;
 import com.franceaoc.app.map.POIMapView;
 import com.franceaoc.app.map.POIOverlayResources;
 import com.google.android.maps.*;
@@ -71,7 +72,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         if ((intentLatitude != 0.0) && (intentLongitude != 0.0))
         {
             // the activity has been lauched with a commune's coordinate in extras
-            mMapCenter = convertLatLon(intentLatitude, intentLongitude);
+            mMapCenter = GeoUtils.convertLatLon(intentLatitude, intentLongitude);
             mZoom = ZOOM_FOCUSED;
 
         }
@@ -79,7 +80,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         {
             double lat = 47.07;
             double lon = 4.88;
-            mMapCenter = convertLatLon(lat, lon);
+            mMapCenter = GeoUtils.convertLatLon(lat, lon);
         }
         else
         {
@@ -87,7 +88,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
             Location location = mLocationManager.getLastKnownLocation(provider);
             if (location != null)
             {
-                mMapCenter = convertGeoPoint(location);
+                mMapCenter = GeoUtils.convertGeoPoint(location);
             }
         }
         mMapView = (POIMapView) findViewById(R.id.mapview);
@@ -101,10 +102,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         mHandler = new UIHandler();
 
         initOverlay();
-
-        mMapView.invalidate();
-
-
+        updateUI();
 
     }
 
@@ -118,7 +116,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
 
         mMapCenter = newCenter;
 
-        if (distance(newCenter, oldCenter) > 3000.0)
+        if (GeoUtils.distance(newCenter, oldCenter) > 3000.0)
         {
             updateUI();
             Log.i(Constants.TAG, "Rebuild overlay");
@@ -130,14 +128,6 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         Message msg = new Message();
         msg.what = UPDATE;
         mHandler.sendMessage(msg);
-    }
-
-    private long calculateRadius()
-    {
-        GeoPoint center = mMapView.getMapCenter();
-        GeoPoint a = new GeoPoint( center.getLatitudeE6() + ( mMapView.getLatitudeSpan() / 2 ), center.getLongitudeE6() + ( mMapView.getLongitudeSpan() / 2 ));
-        GeoPoint b = new GeoPoint( center.getLatitudeE6() - ( mMapView.getLatitudeSpan() / 2 ), center.getLongitudeE6() - ( mMapView.getLongitudeSpan() / 2 ));
-        return (long) ( distance( a , b ) / 2 );
     }
 
     class UIHandler extends Handler
@@ -166,23 +156,6 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         super.onPause();
     }
 
-    private GeoPoint convertGeoPoint(Location location)
-    {
-        if (location != null)
-        {
-            return convertLatLon(location.getLatitude(), location.getLongitude());
-        }
-        return null;
-
-    }
-
-    private GeoPoint convertLatLon(double latitude, double longitude)
-    {
-        int lat = (int) (latitude * 1E6);
-        int lng = (int) (longitude * 1E6);
-        return new GeoPoint(lat, lng);
-
-    }
     private void initOverlay()
     {
         mMapOverlays = mMapView.getOverlays();
@@ -205,7 +178,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     
     private void updateOverlay()
     {
-        long radius = calculateRadius();
+        long radius = GeoUtils.calculateRadius( mMapView );
         int inRadius = mItemizedOverlay.updateOverlay(this, mMapCenter , radius );
         if( inRadius == Constants.MAX_POI_MAP )
         {
@@ -224,10 +197,4 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         startActivity(intent);
     }
 
-    private float distance(GeoPoint p1, GeoPoint p2)
-    {
-        float[] results = new float[3];
-        Location.distanceBetween(p1.getLatitudeE6() / 1E6, p1.getLongitudeE6() / 1E6, p2.getLatitudeE6() / 1E6, p2.getLongitudeE6() / 1E6, results);
-        return results[0];
-    }
 }
