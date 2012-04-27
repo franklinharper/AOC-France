@@ -14,7 +14,6 @@
  */
 package com.franceaoc.app.ui.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -25,14 +24,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 import com.franceaoc.app.Constants;
 import com.franceaoc.app.R;
-import com.franceaoc.app.map.CommuneOverlayItem;
 import com.franceaoc.app.map.CommuneOverlay;
 import com.franceaoc.app.map.POIMapView;
 import com.franceaoc.app.map.POIOverlayResources;
-import com.franceaoc.app.model.Commune;
-import com.franceaoc.app.service.CommuneService;
 import com.google.android.maps.*;
 import java.util.List;
 
@@ -46,8 +43,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private static final int ZOOM_GLOBAL = 10;
     private static final int ZOOM_FOCUSED = 13;
     private static final boolean MODE_SATELLITE = false;
-    private static final int DISMISS = 0;
-    private static final int SHOW = 1;
+    private static final int UPDATE = 1;
     private POIMapView mMapView;
     private MapController mMapController;
     private LocationManager mLocationManager;
@@ -55,8 +51,6 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
     private List<Overlay> mMapOverlays;
     private CommuneOverlay mItemizedOverlay;
     private int mZoom;
-    private static ProgressDialog mDialogProgress;
-    private static boolean mProgress;
     private Handler mHandler;
 
     @Override
@@ -104,28 +98,46 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         mMapView.setOnPanChangeListener(this);
 
         mMapController.animateTo(mMapCenter);
+        mHandler = new UIHandler();
 
-        setPOIOverlay();
+        initOverlay();
 
         mMapView.invalidate();
 
-        mHandler = new UIHandler();
 
 
     }
 
-    private void showProgress()
+    public void onTap(String ci)
+    {
+        startCommuneActivity(ci);
+    }
+
+    public void onPanChange(GeoPoint newCenter, GeoPoint oldCenter)
+    {
+
+        mMapCenter = newCenter;
+
+        if (distance(newCenter, oldCenter) > 3000.0)
+        {
+            updateUI();
+            Log.i(Constants.TAG, "Rebuild overlay");
+        }
+    }
+
+    private void updateUI()
     {
         Message msg = new Message();
-        msg.what = SHOW;
+        msg.what = UPDATE;
         mHandler.sendMessage(msg);
     }
 
-    private void hideProgress()
+    private long calculateRadius()
     {
-        Message msg = new Message();
-        msg.what = DISMISS;
-        mHandler.sendMessage(msg);
+        GeoPoint center = mMapView.getMapCenter();
+        GeoPoint a = new GeoPoint( center.getLatitudeE6() + ( mMapView.getLatitudeSpan() / 2 ), center.getLongitudeE6() + ( mMapView.getLongitudeSpan() / 2 ));
+        GeoPoint b = new GeoPoint( center.getLatitudeE6() - ( mMapView.getLatitudeSpan() / 2 ), center.getLongitudeE6() - ( mMapView.getLongitudeSpan() / 2 ));
+        return (long) ( distance( a , b ) / 2 );
     }
 
     class UIHandler extends Handler
@@ -134,18 +146,9 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         @Override
         public void handleMessage(Message msg)
         {
-            switch (msg.what)
+            if( msg.what == UPDATE )
             {
-                case SHOW:
-                    String message = String.format( getString( R.string.loading_map_poi ) , Constants.MAX_POI_MAP );
-                    mDialogProgress = ProgressDialog.show(AOCMapActivity.this, "", message , true);
-                    mProgress = true;
-                    break;
-
-                case DISMISS:
-                    mDialogProgress.dismiss();
-                    mProgress = false;
-                    break;
+                    updateOverlay();
             }
         }
     }
@@ -180,8 +183,7 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         return new GeoPoint(lat, lng);
 
     }
-
-    private void setPOIOverlay()
+    private void initOverlay()
     {
         mMapOverlays = mMapView.getOverlays();
         Drawable marker = getResources().getDrawable(R.drawable.wine_marker);
@@ -196,26 +198,22 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         res.setMainLayoutId(R.id.balloon_main_layout);
 
         mItemizedOverlay = new CommuneOverlay(marker, mMapView, res, this);
-
-        for (Commune commune : CommuneService.instance().getNearestCommunes(this, mMapCenter, Constants.MAX_POI_MAP))
-        {
-            GeoPoint point = new GeoPoint((int) (commune.getLatitude() * 1E6), (int) (commune.getLongitude() * 1E6));
-            mItemizedOverlay.addOverlay(new CommuneOverlayItem(point, commune.getTitle(), commune.getDesciption(), commune.getId()));
-        }
-
-        mMapOverlays.clear();
         mMapOverlays.add(mItemizedOverlay);
-
-        mMapView.postInvalidate();
-        if (mProgress)
-        {
-            hideProgress();
-        }
+        updateOverlay();
+        
     }
-
-    public void onTap(String ci)
+    
+    private void updateOverlay()
     {
-        startCommuneActivity(ci);
+        long radius = calculateRadius();
+        int inRadius = mItemizedOverlay.updateOverlay(this, mMapCenter , radius );
+        if( inRadius == Constants.MAX_POI_MAP )
+        {
+            Log.d(Constants.TAG, "Radius = " + radius +" In radius : " + inRadius );
+            String msg = String.format( getString(R.string.message_too_many_markers ) , Constants.MAX_POI_MAP );
+            Toast.makeText(this, msg , Toast.LENGTH_LONG).show();
+        }
+        mMapView.postInvalidate();
     }
 
     private void startCommuneActivity(String ci)
@@ -224,20 +222,6 @@ public class AOCMapActivity extends MapActivity implements CommuneOverlay.OnTapL
         intent.putExtra(Constants.EXTRA_COMMUNE_CI, ci);
 
         startActivity(intent);
-    }
-
-    public void onPanChange(GeoPoint newCenter, GeoPoint oldCenter)
-    {
-
-        mMapCenter = newCenter;
-
-        if (distance(newCenter, oldCenter) > 3000.0)
-        {
-            showProgress();
-            setPOIOverlay();
-            Log.i(Constants.TAG, "Rebuild overlay");
-        }
-
     }
 
     private float distance(GeoPoint p1, GeoPoint p2)

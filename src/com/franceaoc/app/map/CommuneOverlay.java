@@ -14,12 +14,18 @@
  */
 package com.franceaoc.app.map;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import com.franceaoc.app.Constants;
+import com.franceaoc.app.model.Commune;
+import com.franceaoc.app.service.CommuneService;
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 import com.readystatesoftware.mapviewballoons.BalloonOverlayResources;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -47,12 +53,21 @@ public class CommuneOverlay extends BalloonItemizedOverlay<OverlayItem>
         populate();
     }
 
-    public void addOverlay(OverlayItem overlay)
+    public int updateOverlay( Context context , GeoPoint mapCenter , long radius )
     {
-        mOverlays.add(overlay);
+        mOverlays.clear();
+        List<Commune> listCommunes = CommuneService.instance().getNearestCommunes( context , mapCenter, Constants.MAX_POI_MAP , radius );
+        for (Commune commune : listCommunes )
+        {
+            GeoPoint point = new GeoPoint((int) (commune.getLatitude() * 1E6), (int) (commune.getLongitude() * 1E6));
+            mOverlays.add(new CommuneOverlayItem(point, commune.getTitle(), commune.getDesciption(), commune.getId()));
+        }
+        setLastFocusedIndex(-1);
         populate();
-    }
+        return listCommunes.size();
 
+    }
+    
     @Override
     protected OverlayItem createItem(int i)
     {

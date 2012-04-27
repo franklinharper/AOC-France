@@ -56,7 +56,7 @@ public class CommuneService
         return mRegistry.get(insee);
     }
 
-    private Collection<Commune> getCommunesList()
+    public Collection<Commune> getCommunesList()
     {
         Collection<Commune> list;
         synchronized (mRegistry)
@@ -66,7 +66,7 @@ public class CommuneService
         return list;
     }
 
-    private synchronized List<Commune> getNearestPOI(double latitude, double longitude, int max, long radius)
+    private synchronized List<Commune> getNearestPOI(double latitude, double longitude, int max, long radius )
     {
         Collection<Commune> list = getCommunesList();
         Log.i(Constants.TAG, "getNearestPOI - begin");
@@ -112,20 +112,21 @@ public class CommuneService
             lon = location.getLongitude();
         }
 
-        return getNearestPOI(lat, lon, max, 1000000);
+        return getNearestPOI(lat, lon, max, 1000000 );
 
     }
 
-    public List<Commune> getNearestCommunes(Context context, GeoPoint point, int max)
+    public List<Commune> getNearestCommunes(Context context, GeoPoint point, int max , long radius )
     {
         double lat = ((double) point.getLatitudeE6()) / 1E6;
         double lon = ((double) point.getLongitudeE6()) / 1E6;
 
-        return getNearestPOI( lat, lon, max, 1000000);
+        return getNearestPOI( lat, lon, max, radius );
     }
 
     public int getCount()
     {
         return mRegistry.size();
     }
+
 }

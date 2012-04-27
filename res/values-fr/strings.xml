@@ -20,6 +20,6 @@
     <string name="label_list_aoc">Liste des AOC de la commune : </string>
     <string name="message_activate_location">Les services de géolocalisation (GPS ou réseau) semblent désactivés !\n\nVoulez-vous en activer un pour utiliser cette application ?</string>
     
-    <string name="loading_map_poi">Chargement des %1$d communes les plus proches du centre de la carte ...</string>    
+    <string name="message_too_many_markers">Zoom trop large. Trop de communes à afficher!\nSeules les %1$d communes les plus proches du centre de la carte sont affichées.</string>    
     
 </resources>
