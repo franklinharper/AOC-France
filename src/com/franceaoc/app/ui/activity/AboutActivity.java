@@ -49,16 +49,16 @@ public class AboutActivity extends Activity
         p.setArrayCreditsRes(R.array.credits);
 
         p.setColorDefault(0xCC8D1C0E);
-        p.setTextSizeDefault(32);
+        p.setTextSizeDefault(50);
         p.setTypefaceDefault(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));
-        p.setSpacingBeforeDefault(10);
-        p.setSpacingAfterDefault(18);
+        p.setSpacingBeforeDefault(20);
+        p.setSpacingAfterDefault(30);
 
         p.setColorCategory(0xCC333333);
-        p.setTextSizeCategory(20);
+        p.setTextSizeCategory(30);
         p.setTypefaceCategory(Typeface.create(Typeface.SANS_SERIF, Typeface.ITALIC));
-        p.setSpacingBeforeCategory(12);
-        p.setSpacingAfterCategory(12);
+        p.setSpacingBeforeCategory(20);
+        p.setSpacingAfterCategory(20);
 
         return p;
 
