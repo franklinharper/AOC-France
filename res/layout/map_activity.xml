@@ -6,4 +6,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:clickable="true"
-    android:apiKey="0zv3oFzgfk69s9l6wFfYtFKaULdDVyQ531tNq3Q" />
+    android:apiKey="0zv3oFzgfk69fLA9uGnu5h4KuYczJSs7O54r3-Q" /> <!-- release api key -->
+   
+   <!-- Pierre's debug key
+    android:apiKey="0zv3oFzgfk69s9l6wFfYtFKaULdDVyQ531tNq3Q" /> -->
