@@ -1,0 +1,7 @@
+Vous-êtes au magasin, ou au restaurant, et vous ne savez pas quel vin prendre? VinoVidi vous permet de retrouver facilement les bons vins que vous avez déjà achetés, et aussi d'éviter les vins qui vous ont déçus!
+
+C'est très simple, vous prenez une photo de l'ètiquette du vin et c'est tout! VinoVidi s'occupe automatiquement d'enregistrer le nom du vin, l'année, la région, et le lieu où vous l'avez enregistré. La seule chose que VinoVidi ne fera pas à votre place, est de dire si vous avez aimé le vin ou pas! Par contre il s'en souviendra pour vous.
+
+VinoVidi est aussi un album photo des vins que vous avez dégustés, et vous permet d'enregistrer vos notes de dégustation.
+
+Les données que vous enregistrez dans VinoVidi seront utilisés pour améliorer le produit. Et peuvent être partagés anonymement avec d'autres utilisateurs de VinoVidi.

@@ -1,0 +1,11 @@
+Version 1.0.3
+- Ajout de dialogues d'information supplémentaires
+- Permettre la saisie d'un prix avec des centimes.
+
+Version 1.0.2
+- Ajout de notifications quand l'utilisateur a un vin à identifier
+- Ajout de notifications quand VinoVidi a reconnu un vin
+
+Version 1.0.1
+- Corrige les upload multiple d'images sur réseaux wifi
+- Corrige les crashes sur Android 3 and 4
